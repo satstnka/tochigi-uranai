@@ -137,17 +137,21 @@ function hideResult(){
 }
 
 function setFrontImage(src){
-  // 画像を一度ロードしてから適用（読み込み待ちを吸収）
-  const img = new Image();
-  img.onload = () => {
-    elFront.style.backgroundImage = `url("${src}")`;
-  };
-  img.onerror = () => {
-    // 読み込み失敗時のフォールバック
-    elFront.style.backgroundImage = `url("images/card.webp")`;
-  };
-  img.src = src;
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => {
+      elFront.style.backgroundImage = `url("${src}")`;
+      resolve(true);
+    };
+    img.onerror = () => {
+      // 失敗時は裏面にしても良い（表示破綻を避ける）
+      elFront.style.backgroundImage = `url("images/card.png")`;
+      resolve(false);
+    };
+    img.src = src;
+  });
 }
+
 
 function flipToFront(){
   elCard.classList.add("is-flipped");
@@ -157,7 +161,7 @@ function flipToBack(){
   elCard.classList.remove("is-flipped");
 }
 
-elDraw.addEventListener("click", () => {
+elDraw.addEventListener("click", async () => {
   if (locked) return;
   locked = true;
 
@@ -165,25 +169,35 @@ elDraw.addEventListener("click", () => {
   elReset.disabled = true;
   hideResult();
 
-  // まず裏面に戻して、次のカード準備（連打でも破綻しにくくする）
+  // いったん表面を隠す（前回画像のチラ見え防止）
+  elCard.classList.add("is-loading");
+
+  // まず裏面に戻す
   flipToBack();
 
+  // 次のカードを選ぶ
   const data = pickRandomCard();
   const imgPath = frontImagePath(data.card);
-  setFrontImage(imgPath);
 
-  // 裏面に戻るアニメ時間を少し待ってから、表へフリップ
+  // 新しい表面画像を「読み込み完了」まで待つ
+  await setFrontImage(imgPath);
+
+  // 読み込みが終わったら表面を表示可能にする
+  elCard.classList.remove("is-loading");
+
+  // 少し待ってからフリップ（裏面状態が安定してから）
   setTimeout(() => {
     flipToFront();
 
-    // フリップ完了後にテキストを表示
+    // フリップ完了後に結果表示
     setTimeout(() => {
       showResult(data);
       elReset.disabled = false;
       locked = false;
     }, 900);
-  }, 120);
+  }, 80);
 });
+
 
 elReset.addEventListener("click", () => {
   if (locked) return;

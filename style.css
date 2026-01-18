@@ -189,3 +189,10 @@ body{
   transform: translateY(-2px);
   transition: transform .2s ease, box-shadow .2s ease, outline-color .2s ease;
 }
+
+.card.is-loading .card-front{
+  opacity: 0;
+}
+.card-front{
+  transition: opacity 150ms ease;
+}
