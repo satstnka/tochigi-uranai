@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>とちぎ占い</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="wrap">
+    <header class="header">
+      <h1 class="title">とちぎ占い</h1>
+      <p class="subtitle">カードを引いて、今日の流れを占おう。</p>
+    </header>
+
+    <section class="card-area" aria-label="占いカード">
+      <div id="card" class="card" aria-live="polite">
+        <div class="card-inner">
+          <div class="card-face card-back" aria-label="カード裏面"></div>
+          <div class="card-face card-front" aria-label="カード表面"></div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="drawBtn" class="btn">占う</button>
+        <button id="resetBtn" class="btn ghost" disabled>もう一度</button>
+      </div>
+    </section>
+
+    <!-- 結果は常に枠を表示して「ここに出る」を明確にする -->
+    <section id="result" class="result is-empty" aria-live="polite">
+      <h2 class="result-title" id="resultCardName">結果はここに表示されます</h2>
+
+      <dl class="result-list">
+        <div class="row">
+          <dt>総合運</dt>
+          <dd id="overall">—</dd>
+        </div>
+        <div class="row">
+          <dt>恋愛運</dt>
+          <dd id="love">—</dd>
+        </div>
+        <div class="row">
+          <dt>金運</dt>
+          <dd id="money">—</dd>
+        </div>
+        <div class="row highlight">
+          <dt>今日の一言</dt>
+          <dd id="oneword">—</dd>
+        </div>
+      </dl>
+    </section>
+
+    <footer class="footer">
+      <small>(C) とちぎ占い</small>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
