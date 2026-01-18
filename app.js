@@ -187,8 +187,16 @@ elDraw.addEventListener("click", () => {
 
 elReset.addEventListener("click", () => {
   if (locked) return;
+
   hideResult();
   flipToBack();
+
   elDraw.disabled = false;
   elReset.disabled = true;
+
+  window.scrollTo({
+    top: 0,
+    behavior: "smooth"
+  });
 });
+
