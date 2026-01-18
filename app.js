@@ -100,9 +100,8 @@ const elOne = document.getElementById("oneword");
 
 let locked = false;
 
-// 画像ファイル名は (タイトル).png
 function frontImagePath(cardName){
-  return `images/${cardName}.png`;
+  return `images/${cardName}.webp`;
 }
 
 function pickRandomCard(){
@@ -145,7 +144,7 @@ function setFrontImage(src){
   };
   img.onerror = () => {
     // 読み込み失敗時のフォールバック
-    elFront.style.backgroundImage = `url("images/card.png")`;
+    elFront.style.backgroundImage = `url("images/card.webp")`;
   };
   img.src = src;
 }

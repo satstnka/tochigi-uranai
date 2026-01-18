@@ -89,12 +89,12 @@ body{
 }
 
 .card-back{
-  background-image: url("images/card.png");
+  background-image: url("images/card.webp");
 }
 
 .card-front{
   transform: rotateY(180deg);
-  background-image: url("images/card.png");
+  background-image: url("images/card.webp");
 }
 
 .actions{
